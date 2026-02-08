@@ -10,9 +10,13 @@
 #define IDC_BUTTON_START                1000
 #define IDC_BUTTON_SUSPEND              1001
 #define IDC_LIST1                       1002
+#define IDC_LIST_WND                    1002
 #define IDC_RICHEDIT22                  1003
+#define IDC_RICHE_MESSAGE               1003
 #define IDC_LIST2                       1004
+#define IDC_LIST_TASK                   1004
 #define IDC_LIST3                       1005
+#define IDC_LIST_TASK_RUN               1005
 
 // Next default values for new objects
 // 

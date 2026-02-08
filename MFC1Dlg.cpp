@@ -1,5 +1,4 @@
-﻿
-// MFC1Dlg.cpp: 实现文件
+﻿// MFC1Dlg.cpp: 实现文件
 //
 
 #include "pch.h"
@@ -59,6 +58,9 @@ CMFC1Dlg::CMFC1Dlg(CWnd* pParent /*=nullptr*/)
 void CMFC1Dlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_LIST_WND, m_lstWnd);
+	DDX_Control(pDX, IDC_LIST_TASK, m_lstTask);
+	DDX_Control(pDX, IDC_LIST_TASK_RUN, m_lstTaskRun);
 }
 
 BEGIN_MESSAGE_MAP(CMFC1Dlg, CDialogEx)
@@ -158,13 +160,15 @@ HCURSOR CMFC1Dlg::OnQueryDragIcon()
 }
 
 
-
+// "开始"按钮点击事件处理程序
 void CMFC1Dlg::OnBnClickedButtonStart()
 {
 	// TODO: 在此添加控件通知处理程序代码
+	//AfxMessageBox(_T("Start"));
 }
 
 void CMFC1Dlg::OnBnClickedButtonSuspend()
 {
 	// TODO: 在此添加控件通知处理程序代码
+	//AfxMessageBox(_T("Suspend"));
 }

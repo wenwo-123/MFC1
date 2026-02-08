@@ -20,6 +20,10 @@ public:
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV 支持
 
+private: // 存放变量
+	CListCtrl m_lstWnd;
+	CListCtrl m_lstTask;
+	CListCtrl m_lstTaskRun;
 
 // 实现
 protected:
@@ -31,9 +35,9 @@ protected:
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
-public:
-	afx_msg void OnBnClickedButton1();
-	afx_msg void OnBnClickedButtonStart2();
+public: // 存放函数
+
 	afx_msg void OnBnClickedButtonStart();
 	afx_msg void OnBnClickedButtonSuspend();
+
 };
