@@ -106,6 +106,18 @@ BOOL CMFC1Dlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
 	// TODO: 在此添加额外的初始化代码
+	DWORD dwStyle = m_lstWnd.GetExtendedStyle();  // 获取当前的扩展样式
+	dwStyle |= LVS_EX_FULLROWSELECT;  // 添加全行选择样式
+	//dwStyle |= LVS_EX_GRIDLINES;	  // 添加网格线样式
+	dwStyle |= LVS_EX_CHECKBOXES;	  // 添加复选框样式
+	m_lstWnd.SetExtendedStyle(dwStyle);  // 设置新的扩展样式
+	m_lstWnd.InsertColumn(0, _T("窗口句柄"), LVCFMT_CENTER, 90); // 插入第一列
+	int iRow = m_lstWnd.GetItemCount();  // 获取当前行数
+	m_lstWnd.InsertItem(iRow, _T(""));  // 插入新行
+
+	CString strId;
+	strId.Format(_T("%d"), 1);  // 将整数转换为字符串
+	m_lstWnd.SetItemText(iRow, 0, strId);  // 设置第一列文本
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
