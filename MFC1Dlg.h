@@ -24,6 +24,7 @@ private: // 存放变量
 	CListCtrl m_lstWnd;
 	CListCtrl m_lstTask;
 	CListCtrl m_lstTaskRun;
+	CTraceServiceControl	m_TraceServiceControl;
 
 // 实现
 protected:
@@ -40,4 +41,6 @@ public: // 存放函数
 	afx_msg void OnBnClickedButtonStart();
 	afx_msg void OnBnClickedButtonSuspend();
 
+	afx_msg void OnLvnItemchangedListTaskRun(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnTimer(UINT_PTR nIDEvent);
 };

@@ -61,6 +61,8 @@ void CMFC1Dlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_LIST_WND, m_lstWnd);
 	DDX_Control(pDX, IDC_LIST_TASK, m_lstTask);
 	DDX_Control(pDX, IDC_LIST_TASK_RUN, m_lstTaskRun);
+
+	DDX_Control(pDX, IDC_TRACE_MESSAGE , m_TraceServiceControl);
 }
 
 BEGIN_MESSAGE_MAP(CMFC1Dlg, CDialogEx)
@@ -71,6 +73,8 @@ BEGIN_MESSAGE_MAP(CMFC1Dlg, CDialogEx)
 	
 	ON_BN_CLICKED(IDC_BUTTON_START, &CMFC1Dlg::OnBnClickedButtonStart)
 	ON_BN_CLICKED(IDC_BUTTON_SUSPEND, &CMFC1Dlg::OnBnClickedButtonSuspend)
+	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST_TASK_RUN, &CMFC1Dlg::OnLvnItemchangedListTaskRun)
+	ON_WM_TIMER()
 END_MESSAGE_MAP()
 
 
@@ -105,19 +109,46 @@ BOOL CMFC1Dlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// 设置大图标
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
-	// TODO: 在此添加额外的初始化代码
+	//#——————————————lstwnd设置
 	DWORD dwStyle = m_lstWnd.GetExtendedStyle();  // 获取当前的扩展样式
 	dwStyle |= LVS_EX_FULLROWSELECT;  // 添加全行选择样式
-	//dwStyle |= LVS_EX_GRIDLINES;	  // 添加网格线样式
+	dwStyle |= LVS_EX_GRIDLINES;	  // 添加网格线样式
 	dwStyle |= LVS_EX_CHECKBOXES;	  // 添加复选框样式
 	m_lstWnd.SetExtendedStyle(dwStyle);  // 设置新的扩展样式
 	m_lstWnd.InsertColumn(0, _T("窗口句柄"), LVCFMT_CENTER, 90); // 插入第一列
+	m_lstWnd.InsertColumn(1, _T("任务"), LVCFMT_CENTER, 90); // 插入第2列
+
+
 	int iRow = m_lstWnd.GetItemCount();  // 获取当前行数
 	m_lstWnd.InsertItem(iRow, _T(""));  // 插入新行
+	//CString strId;
+	//strId.Format(_T("%d"), 1);  // 将整数转换为字符串
+	//m_lstWnd.SetItemText(iRow, 0, strId);  // 设置第一列文本
+	//m_lstWnd.SetItemText(iRow, 1, _T("跑图"));  // 设置第一列文本
 
-	CString strId;
-	strId.Format(_T("%d"), 1);  // 将整数转换为字符串
-	m_lstWnd.SetItemText(iRow, 0, strId);  // 设置第一列文本
+	//iRow = m_lstWnd.GetItemCount();  // 获取当前行数
+	//m_lstWnd.InsertItem(iRow, _T(""));  // 插入新行
+	//strId.Format(_T("%d"), 2);  // 将整数转换为字符串
+	//m_lstWnd.SetItemText(iRow, 0, strId);  // 设置第一列文本
+	//m_lstWnd.SetItemText(iRow, 1, _T("跑图"));  // 设置第一列文本
+
+	//#——————————————m_lstTask 设置
+	dwStyle = m_lstTask.GetExtendedStyle(); 
+	dwStyle |= LVS_EX_FULLROWSELECT;  
+	dwStyle |= LVS_EX_GRIDLINES;	 
+	m_lstTask.SetExtendedStyle(dwStyle);  
+	m_lstTask.InsertColumn(0, _T("当前任务"), LVCFMT_CENTER, 200);
+
+	//#——————————————m_lstTaskRun 设置
+	dwStyle = m_lstTaskRun.GetExtendedStyle();  
+	dwStyle |= LVS_EX_FULLROWSELECT;  
+	dwStyle |= LVS_EX_GRIDLINES;	  
+	m_lstTaskRun.SetExtendedStyle(dwStyle);  
+	m_lstTaskRun.InsertColumn(0, _T("执行任务"), LVCFMT_CENTER, 200);
+	 
+	//SetTimer(1, 1000,NULL);
+
+
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -177,10 +208,35 @@ void CMFC1Dlg::OnBnClickedButtonStart()
 {
 	// TODO: 在此添加控件通知处理程序代码
 	//AfxMessageBox(_T("Start"));
+	CTraceService::TraceString(_T("启动了"), TraceLevel_Debug);
 }
 
 void CMFC1Dlg::OnBnClickedButtonSuspend()
 {
 	// TODO: 在此添加控件通知处理程序代码
 	//AfxMessageBox(_T("Suspend"));
+	CTraceService::TraceString(_T("暂停了"), TraceLevel_Warning);
+}
+
+void CMFC1Dlg::OnLvnItemchangedListTaskRun(NMHDR* pNMHDR, LRESULT* pResult)
+{
+	LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
+	// TODO: 在此添加控件通知处理程序代码
+	*pResult = 0;
+}
+
+// 定时器事件处理程序
+void CMFC1Dlg::OnTimer(UINT_PTR nIDEvent)
+{
+	// TODO: 在此添加消息处理程序代码和/或调用默认值
+	if (nIDEvent == 1) 
+	{
+		CTraceService::TraceString(_T("这是我的第1行日志"), TraceLevel_Normal);
+		CTraceService::TraceString(_T("这是我的第2行日志"), TraceLevel_Debug);
+		CTraceService::TraceString(_T("这是我的第4行日志"), TraceLevel_Warning);
+	}
+
+
+
+	CDialogEx::OnTimer(nIDEvent);
 }

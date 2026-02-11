@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="ServiceCore">
+      <UniqueIdentifier>{9fb89bc3-40c0-42ee-acf6-5df1ff261fca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MFC1.h">
@@ -33,6 +36,54 @@
     <ClInclude Include="pch.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\ServiceCore\Array.h">
+      <Filter>ServiceCore</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ServiceCore\Define.h">
+      <Filter>ServiceCore</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ServiceCore\Lock.h">
+      <Filter>ServiceCore</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ServiceCore\Macro.h">
+      <Filter>ServiceCore</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ServiceCore\ServiceCoreHead.h">
+      <Filter>ServiceCore</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ServiceCore\TraceService.h">
+      <Filter>ServiceCore</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ServiceCore\utils.h">
+      <Filter>ServiceCore</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ServiceCore\WHCommandLine.h">
+      <Filter>ServiceCore</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ServiceCore\WHDataLocker.h">
+      <Filter>ServiceCore</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ServiceCore\WHDataQueue.h">
+      <Filter>ServiceCore</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ServiceCore\WHEncrypt.h">
+      <Filter>ServiceCore</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ServiceCore\WHIniData.h">
+      <Filter>ServiceCore</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ServiceCore\WHMD5CheckSum.h">
+      <Filter>ServiceCore</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ServiceCore\WHRegKey.h">
+      <Filter>ServiceCore</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ServiceCore\WHService.h">
+      <Filter>ServiceCore</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ServiceCore\WHThread.h">
+      <Filter>ServiceCore</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MFC1.cpp">
@@ -43,6 +94,42 @@
     </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="include\ServiceCore\Lock.cpp">
+      <Filter>ServiceCore</Filter>
+    </ClCompile>
+    <ClCompile Include="include\ServiceCore\TraceService.cpp">
+      <Filter>ServiceCore</Filter>
+    </ClCompile>
+    <ClCompile Include="include\ServiceCore\utils.cpp">
+      <Filter>ServiceCore</Filter>
+    </ClCompile>
+    <ClCompile Include="include\ServiceCore\WHCommandLine.cpp">
+      <Filter>ServiceCore</Filter>
+    </ClCompile>
+    <ClCompile Include="include\ServiceCore\WHDataLocker.cpp">
+      <Filter>ServiceCore</Filter>
+    </ClCompile>
+    <ClCompile Include="include\ServiceCore\WHDataQueue.cpp">
+      <Filter>ServiceCore</Filter>
+    </ClCompile>
+    <ClCompile Include="include\ServiceCore\WHEncrypt.cpp">
+      <Filter>ServiceCore</Filter>
+    </ClCompile>
+    <ClCompile Include="include\ServiceCore\WHIniData.cpp">
+      <Filter>ServiceCore</Filter>
+    </ClCompile>
+    <ClCompile Include="include\ServiceCore\WHMD5CheckSum.cpp">
+      <Filter>ServiceCore</Filter>
+    </ClCompile>
+    <ClCompile Include="include\ServiceCore\WHRegKey.cpp">
+      <Filter>ServiceCore</Filter>
+    </ClCompile>
+    <ClCompile Include="include\ServiceCore\WHService.cpp">
+      <Filter>ServiceCore</Filter>
+    </ClCompile>
+    <ClCompile Include="include\ServiceCore\WHThread.cpp">
+      <Filter>ServiceCore</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

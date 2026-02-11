@@ -76,15 +76,19 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <ExternalIncludePath>D:\MyProjects\MFC1\include</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <ExternalIncludePath>.\include\ServiceCore;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <ExternalIncludePath>.\include\ServiceCore;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <ExternalIncludePath>D:\MyProjects\MFC1\include</ExternalIncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -112,7 +116,7 @@
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>true</SDLCheck>
+      <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -136,7 +140,7 @@
       <WarningLevel>Level3</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
+      <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -184,6 +188,22 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
+    <ClInclude Include="include\ServiceCore\Array.h" />
+    <ClInclude Include="include\ServiceCore\Define.h" />
+    <ClInclude Include="include\ServiceCore\Lock.h" />
+    <ClInclude Include="include\ServiceCore\Macro.h" />
+    <ClInclude Include="include\ServiceCore\ServiceCoreHead.h" />
+    <ClInclude Include="include\ServiceCore\TraceService.h" />
+    <ClInclude Include="include\ServiceCore\utils.h" />
+    <ClInclude Include="include\ServiceCore\WHCommandLine.h" />
+    <ClInclude Include="include\ServiceCore\WHDataLocker.h" />
+    <ClInclude Include="include\ServiceCore\WHDataQueue.h" />
+    <ClInclude Include="include\ServiceCore\WHEncrypt.h" />
+    <ClInclude Include="include\ServiceCore\WHIniData.h" />
+    <ClInclude Include="include\ServiceCore\WHMD5CheckSum.h" />
+    <ClInclude Include="include\ServiceCore\WHRegKey.h" />
+    <ClInclude Include="include\ServiceCore\WHService.h" />
+    <ClInclude Include="include\ServiceCore\WHThread.h" />
     <ClInclude Include="MFC1.h" />
     <ClInclude Include="MFC1Dlg.h" />
     <ClInclude Include="pch.h" />
@@ -191,6 +211,18 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="include\ServiceCore\Lock.cpp" />
+    <ClCompile Include="include\ServiceCore\TraceService.cpp" />
+    <ClCompile Include="include\ServiceCore\utils.cpp" />
+    <ClCompile Include="include\ServiceCore\WHCommandLine.cpp" />
+    <ClCompile Include="include\ServiceCore\WHDataLocker.cpp" />
+    <ClCompile Include="include\ServiceCore\WHDataQueue.cpp" />
+    <ClCompile Include="include\ServiceCore\WHEncrypt.cpp" />
+    <ClCompile Include="include\ServiceCore\WHIniData.cpp" />
+    <ClCompile Include="include\ServiceCore\WHMD5CheckSum.cpp" />
+    <ClCompile Include="include\ServiceCore\WHRegKey.cpp" />
+    <ClCompile Include="include\ServiceCore\WHService.cpp" />
+    <ClCompile Include="include\ServiceCore\WHThread.cpp" />
     <ClCompile Include="MFC1.cpp" />
     <ClCompile Include="MFC1Dlg.cpp" />
     <ClCompile Include="pch.cpp">
