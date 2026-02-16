@@ -64,6 +64,15 @@ UINT CWHIniData::SetString(LPCTSTR pszItem, LPCTSTR pszSubItem, LPCTSTR pszDefau
 }
 
 //读取字符
+LPCTSTR CWHIniData::ReadString(LPCTSTR pszItem, LPCTSTR pszSubItem)
+{
+	//效验状态
+	ASSERT(m_szIniFile[0] != 0);
+
+	TCHAR szInfo[1024] = { 0 };
+	return ReadString(pszItem, pszSubItem, _T(""), szInfo, sizeof(szInfo) / sizeof(TCHAR));
+}
+
 LPCTSTR CWHIniData::ReadString(LPCTSTR pszItem, LPCTSTR pszSubItem, LPCTSTR pszDefault, LPTSTR pszString, WORD wMaxCount)
 {
 	//效验状态

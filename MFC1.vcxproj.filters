@@ -16,6 +16,18 @@
     <Filter Include="ServiceCore">
       <UniqueIdentifier>{9fb89bc3-40c0-42ee-acf6-5df1ff261fca}</UniqueIdentifier>
     </Filter>
+    <Filter Include="框架模块">
+      <UniqueIdentifier>{c20ae770-e762-4d47-abad-49c21ee160a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="任务模块">
+      <UniqueIdentifier>{b58f3642-4e4a-4199-bc0c-a52355eeb5b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="框架模块\源文件">
+      <UniqueIdentifier>{ca444a3f-79bc-48df-9aac-4ee41172b275}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="框架模块\头文件">
+      <UniqueIdentifier>{09542d6f-8495-45c4-a8ff-0b198d90b399}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MFC1.h">
@@ -84,6 +96,18 @@
     <ClInclude Include="include\ServiceCore\WHThread.h">
       <Filter>ServiceCore</Filter>
     </ClInclude>
+    <ClInclude Include="CEngine.h">
+      <Filter>框架模块\头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CWndManager.h">
+      <Filter>框架模块\头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CTaskManager.h">
+      <Filter>框架模块\头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="struct.h">
+      <Filter>框架模块\头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MFC1.cpp">
@@ -130,6 +154,15 @@
     </ClCompile>
     <ClCompile Include="include\ServiceCore\WHThread.cpp">
       <Filter>ServiceCore</Filter>
+    </ClCompile>
+    <ClCompile Include="CEngine.cpp">
+      <Filter>框架模块\源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CWndManager.cpp">
+      <Filter>框架模块\源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CTaskManager.cpp">
+      <Filter>框架模块\源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

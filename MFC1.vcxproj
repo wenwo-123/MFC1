@@ -117,7 +117,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_UNICODE;UNICODE;WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
@@ -187,6 +187,9 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CEngine.h" />
+    <ClInclude Include="CTaskManager.h" />
+    <ClInclude Include="CWndManager.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="include\ServiceCore\Array.h" />
     <ClInclude Include="include\ServiceCore\Define.h" />
@@ -208,9 +211,13 @@
     <ClInclude Include="MFC1Dlg.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="struct.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CEngine.cpp" />
+    <ClCompile Include="CTaskManager.cpp" />
+    <ClCompile Include="CWndManager.cpp" />
     <ClCompile Include="include\ServiceCore\Lock.cpp" />
     <ClCompile Include="include\ServiceCore\TraceService.cpp" />
     <ClCompile Include="include\ServiceCore\utils.cpp" />

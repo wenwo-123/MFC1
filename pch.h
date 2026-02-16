@@ -8,12 +8,14 @@
 #define PCH_H
 
 // 添加要在此处预编译的标头
-#include "framework.h"
+#include "framework.h"  
 
 
 // ServiceCoreHead.h: 包含了应用程序所需的所有系统和项目特定的头文件
-#include "ServiceCoreHead.h" 
+//#include "ServiceCoreHead.h" 
 // TraceService.h: 包含了跟踪服务相关的头文件
-#include "TraceService.h" b 
+#include "TraceService.h" 
+
+#include "struct.h"  // 包含了应用程序中使用的结构体定义
 
 #endif //PCH_H

@@ -6,10 +6,15 @@
 #include "MFC1.h"
 #include "MFC1Dlg.h"
 #include "afxdialogex.h"
+#include "CEngine.h"
+
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
+
+// 全局指针，指向CEngine实例
+CEngine* g_pEngine = NULL; 
 
 
 // 用于应用程序“关于”菜单项的 CAboutDlg 对话框
@@ -116,7 +121,7 @@ BOOL CMFC1Dlg::OnInitDialog()
 	dwStyle |= LVS_EX_CHECKBOXES;	  // 添加复选框样式
 	m_lstWnd.SetExtendedStyle(dwStyle);  // 设置新的扩展样式
 	m_lstWnd.InsertColumn(0, _T("窗口句柄"), LVCFMT_CENTER, 90); // 插入第一列
-	m_lstWnd.InsertColumn(1, _T("任务"), LVCFMT_CENTER, 90); // 插入第2列
+	m_lstWnd.InsertColumn(1, _T("任务"), LVCFMT_CENTER, 90); 
 
 
 	int iRow = m_lstWnd.GetItemCount();  // 获取当前行数
@@ -126,13 +131,13 @@ BOOL CMFC1Dlg::OnInitDialog()
 	//m_lstWnd.SetItemText(iRow, 0, strId);  // 设置第一列文本
 	//m_lstWnd.SetItemText(iRow, 1, _T("跑图"));  // 设置第一列文本
 
-	//iRow = m_lstWnd.GetItemCount();  // 获取当前行数
-	//m_lstWnd.InsertItem(iRow, _T(""));  // 插入新行
-	//strId.Format(_T("%d"), 2);  // 将整数转换为字符串
-	//m_lstWnd.SetItemText(iRow, 0, strId);  // 设置第一列文本
-	//m_lstWnd.SetItemText(iRow, 1, _T("跑图"));  // 设置第一列文本
+	//iRow = m_lstWnd.GetItemCount();  
+	//m_lstWnd.InsertItem(iRow, _T(""));  
+	//strId.Format(_T("%d"), 2);  
+	//m_lstWnd.SetItemText(iRow, 0, strId);  
+	//m_lstWnd.SetItemText(iRow, 1, _T("跑图")); 
 
-	//#——————————————m_lstTask 设置
+	//#——————————————m_lstTask 设置———————————————————————#
 	dwStyle = m_lstTask.GetExtendedStyle(); 
 	dwStyle |= LVS_EX_FULLROWSELECT;  
 	dwStyle |= LVS_EX_GRIDLINES;	 
@@ -148,6 +153,9 @@ BOOL CMFC1Dlg::OnInitDialog()
 	 
 	//SetTimer(1, 1000,NULL);
 
+	// 创建CEngine实例并赋值给全局指针
+	g_pEngine = new CEngine();  
+	g_pEngine->Init();
 
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE

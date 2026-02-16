@@ -45,6 +45,7 @@ public:
 	UINT ReadInt(LPCTSTR pszItem, LPCTSTR pszSubItem, INT nDefault);
 
 	//读取字符
+	LPCTSTR ReadString(LPCTSTR pszItem, LPCTSTR pszSubItem);
 	LPCTSTR ReadString(LPCTSTR pszItem, LPCTSTR pszSubItem, LPCTSTR pszDefault, LPTSTR pszString, WORD wMaxCount);
 
 	//设置数值
