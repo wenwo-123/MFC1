@@ -7,7 +7,7 @@ public:
 	~CWndManager();  // 析构函数
 
 
-	bool GetWndList(CArray<tagWndInfo>& arrWnd);  // 获取窗口列表
+	int GetWndList(CArray<tagWndInfo>& arrWnd);  // 获取窗口列表
 
 };
 

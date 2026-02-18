@@ -132,4 +132,6 @@ void ListFile(CString strPath, CString strKey, CStringArray& arrFile);
 std::string Base64_Encode(const unsigned char* Data, int DataByte);
 std::string Base64_Decode(const char* Data, int DataByte, int& OutByte);
 
+CString I2S(int iValue);
+
 #endif /* UTILS_H */

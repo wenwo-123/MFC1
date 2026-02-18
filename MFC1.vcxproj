@@ -243,6 +243,7 @@
     <ResourceCompile Include="MFC1.rc" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Debug\全局配置.ini" />
     <None Include="res\MFC1.rc2" />
   </ItemGroup>
   <ItemGroup>

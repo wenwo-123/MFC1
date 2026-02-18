@@ -677,4 +677,10 @@ std::string Base64_Decode(const char* Data, int DataByte, int& OutByte)
 	}
 	return strDecode;
 }
+
+CString I2S(int iValue) {
+	CString strValue;
+	strValue.Format(_T("%d"), iValue);
+	return strValue;
+}
 ///end

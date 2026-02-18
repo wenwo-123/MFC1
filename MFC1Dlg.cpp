@@ -52,7 +52,7 @@ END_MESSAGE_MAP()
 
 // CMFC1Dlg 对话框
 
-
+#define TIME_UPDATE_WND 1
 
 CMFC1Dlg::CMFC1Dlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_MFC1_DIALOG, pParent)
@@ -121,11 +121,11 @@ BOOL CMFC1Dlg::OnInitDialog()
 	dwStyle |= LVS_EX_CHECKBOXES;	  // 添加复选框样式
 	m_lstWnd.SetExtendedStyle(dwStyle);  // 设置新的扩展样式
 	m_lstWnd.InsertColumn(0, _T("窗口句柄"), LVCFMT_CENTER, 90); // 插入第一列
-	m_lstWnd.InsertColumn(1, _T("任务"), LVCFMT_CENTER, 90); 
+	m_lstWnd.InsertColumn(1, _T("标题"), LVCFMT_CENTER, 90); 
 
 
-	int iRow = m_lstWnd.GetItemCount();  // 获取当前行数
-	m_lstWnd.InsertItem(iRow, _T(""));  // 插入新行
+	//int iRow = m_lstWnd.GetItemCount();  // 获取当前行数
+	//m_lstWnd.InsertItem(iRow, _T(""));  // 插入新行
 	//CString strId;
 	//strId.Format(_T("%d"), 1);  // 将整数转换为字符串
 	//m_lstWnd.SetItemText(iRow, 0, strId);  // 设置第一列文本
@@ -151,11 +151,13 @@ BOOL CMFC1Dlg::OnInitDialog()
 	m_lstTaskRun.SetExtendedStyle(dwStyle);  
 	m_lstTaskRun.InsertColumn(0, _T("执行任务"), LVCFMT_CENTER, 200);
 	 
-	//SetTimer(1, 1000,NULL);
+	
 
 	// 创建CEngine实例并赋值给全局指针
 	g_pEngine = new CEngine();  
 	g_pEngine->Init();
+
+	SetTimer(TIME_UPDATE_WND, 5000,NULL);
 
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
@@ -237,14 +239,48 @@ void CMFC1Dlg::OnLvnItemchangedListTaskRun(NMHDR* pNMHDR, LRESULT* pResult)
 void CMFC1Dlg::OnTimer(UINT_PTR nIDEvent)
 {
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
-	if (nIDEvent == 1) 
+	if (nIDEvent == TIME_UPDATE_WND)
 	{
-		CTraceService::TraceString(_T("这是我的第1行日志"), TraceLevel_Normal);
-		CTraceService::TraceString(_T("这是我的第2行日志"), TraceLevel_Debug);
-		CTraceService::TraceString(_T("这是我的第4行日志"), TraceLevel_Warning);
+		int nWndCount = g_pEngine->GetWndList(); 
+		if (nWndCount > 0)
+		{
+			for (int i = 0; i < nWndCount; i++) 
+			{
+				int hWnd = (int)g_pEngine->m_arrWnd[i].hWnd;
+
+				if (IsWndExist(hWnd))
+				{
+					m_lstWnd.SetItemText(i, 1, g_pEngine->m_arrWnd[i].strTitle); 
+				}
+				else 
+				{
+					int iRow = m_lstWnd.GetItemCount();  // 获取当前行数
+					m_lstWnd.InsertItem(iRow, _T(""));  // 插入新行
+					m_lstWnd.SetItemText(i, 0, I2S((int)g_pEngine->m_arrWnd[i].hWnd));
+					m_lstWnd.SetItemText(i, 1, g_pEngine->m_arrWnd[i].strTitle);  // 设置第一列文本
+
+				}
+			}
+		}
+		
 	}
 
 
-
 	CDialogEx::OnTimer(nIDEvent);
+
+}
+
+
+bool  CMFC1Dlg::IsWndExist(int hwnd)
+{
+	for (int i = 0; i < m_lstWnd.GetItemCount(); i++) // 遍历列表控件的每一行
+	{
+		int iHwndTmp = _ttoi(m_lstWnd.GetItemText(i, 0));
+		if (hwnd == iHwndTmp)
+			return true;
+	}
+
+	return false;
+
+
 }

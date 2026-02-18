@@ -26,6 +26,11 @@ private: // 存放变量
 	CListCtrl m_lstTaskRun;
 	CTraceServiceControl	m_TraceServiceControl;
 
+
+private:
+	bool IsWndExist(int id);
+
+
 // 实现
 protected:
 	HICON m_hIcon;
