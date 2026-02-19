@@ -246,9 +246,10 @@ void CMFC1Dlg::OnTimer(UINT_PTR nIDEvent)
 		{
 			for (int i = 0; i < nWndCount; i++) 
 			{
-				int hWnd = (int)g_pEngine->m_arrWnd[i].hWnd;
+				int id = (int)g_pEngine->m_arrWnd[i].id;
+				//int hWnd = (int)g_pEngine->m_arrWnd[i].hWnd;
 
-				if (IsWndExist(hWnd))
+				if (IsWndExist(id))
 				{
 					m_lstWnd.SetItemText(i, 1, g_pEngine->m_arrWnd[i].strTitle); 
 				}
@@ -256,7 +257,7 @@ void CMFC1Dlg::OnTimer(UINT_PTR nIDEvent)
 				{
 					int iRow = m_lstWnd.GetItemCount();  // 获取当前行数
 					m_lstWnd.InsertItem(iRow, _T(""));  // 插入新行
-					m_lstWnd.SetItemText(i, 0, I2S((int)g_pEngine->m_arrWnd[i].hWnd));
+					m_lstWnd.SetItemText(i, 0, I2S((int)g_pEngine->m_arrWnd[i].id));
 					m_lstWnd.SetItemText(i, 1, g_pEngine->m_arrWnd[i].strTitle);  // 设置第一列文本
 
 				}
@@ -271,16 +272,14 @@ void CMFC1Dlg::OnTimer(UINT_PTR nIDEvent)
 }
 
 
-bool  CMFC1Dlg::IsWndExist(int hwnd)
+bool  CMFC1Dlg::IsWndExist(int id)
 {
 	for (int i = 0; i < m_lstWnd.GetItemCount(); i++) // 遍历列表控件的每一行
 	{
-		int iHwndTmp = _ttoi(m_lstWnd.GetItemText(i, 0));
-		if (hwnd == iHwndTmp)
+		int idTmp = _ttoi(m_lstWnd.GetItemText(i, 0));
+		if (id == idTmp)
 			return true;
 	}
 
 	return false;
-
-
 }

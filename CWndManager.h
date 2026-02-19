@@ -8,6 +8,13 @@ public:
 
 
 	int GetWndList(CArray<tagWndInfo>& arrWnd);  // 获取窗口列表
+	int GetLDList(CArray<tagWndInfo>& arrWnd);
+
+private:
+	CString ExeCmd(CString pszCmd);
+	CString ListVM();
+
+
 
 };
 

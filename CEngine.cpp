@@ -26,9 +26,18 @@ void CEngine::Init()  // 获取窗口信息配置
 	m_WndIni.strProc = ini.ReadString(_T("窗口"), _T("进程"));
 	m_WndIni.strTitle = ini.ReadString(_T("窗口"), _T("标题"));
 	m_WndIni.strClz = ini.ReadString(_T("窗口"), _T("类名"));
+	m_WndIni.strLDPath = ini.ReadString(_T("窗口"), _T("雷电路径"));
 }
 
 int CEngine::GetWndList()
 {
-	return m_wndMgr->GetWndList(m_arrWnd);
+	if (m_WndIni.strLDPath.GetLength() > 5)
+	{
+		return m_wndMgr->GetLDList(m_arrWnd);
+	}
+	else 
+	{
+		return m_wndMgr->GetWndList(m_arrWnd);
+	}
+	
 }
