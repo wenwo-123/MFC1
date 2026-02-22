@@ -24,12 +24,12 @@ private: // 存放变量
 	CListCtrl m_lstWnd;
 	CListCtrl m_lstTask;
 	CListCtrl m_lstTaskRun;
-	CTraceServiceControl	m_TraceServiceControl; 
+	CTraceServiceControl	m_TraceServiceControl;  
 
 
-	CString m_strDMKey;
-	CString m_strPass;
-	CString m_strWorkPath;
+	CString m_strDMKey;  
+	CString m_strPass;  
+	CString m_strWorkPath;  
 
 
 

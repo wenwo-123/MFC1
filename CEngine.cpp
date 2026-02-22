@@ -44,7 +44,24 @@ void CEngine::Init()  // 获取窗口信息配置
 	m_WndIni.strTitle = ini.ReadString(_T("窗口"), _T("标题"));
 	m_WndIni.strClz = ini.ReadString(_T("窗口"), _T("类名"));
 	m_WndIni.strLDPath = ini.ReadString(_T("窗口"), _T("雷电路径"));
+
+	m_WndIni.strDisplay = ini.ReadString(_T("窗口"), _T("display"));
+	m_WndIni.strMouse = ini.ReadString(_T("窗口"), _T("mouse"));
+	m_WndIni.strKeypad = ini.ReadString(_T("窗口"), _T("keypad"));
+	m_WndIni.strPublic = ini.ReadString(_T("窗口"), _T("public"));
+	m_WndIni.iMode = ini.ReadInt(_T("窗口"), _T("mode"), 0);
+
+	CString strTmp;
+	strTmp = ini.ReadString(_T("窗口"), _T("窗口尺寸"));
+	CStringArray arrTmp;
+	Split(strTmp, arrTmp, _T(","));
+	if (arrTmp.GetCount() == 2)
+	{
+		m_iWidth = _ttoi(arrTmp[0]);
+		m_iHeight = _ttoi(arrTmp[1]);
+	}
 }
+
 
 int CEngine::GetWndList()
 {
@@ -70,7 +87,7 @@ void CEngine::Start()  // 启动引擎
 			tagTaskInfo* pTask = new tagTaskInfo;  // 创建任务信息
 			pTask->id = pInfo->id;
 			pTask->pWnd = pInfo; // 关联窗口信息
-			pTask->pTask = new CTaskThread(pInfo->strTitle);
+			pTask->pTask = new CTaskThread(pInfo);
 			pTask->pTask->StartThread();
 			m_arrTask.Add(pTask);
 

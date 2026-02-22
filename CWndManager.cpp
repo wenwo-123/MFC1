@@ -98,7 +98,7 @@ int CWndManager::GetLDList(CArray<tagWndInfo*>& arrWnd)
 		CString strVm = strArray.GetAt(i); // 获取当前行
 		CString strTmp; 
 
-		AfxExtractSubString(strTmp, (LPCTSTR)strVm, 0, _T(','));
+		AfxExtractSubString(strTmp, (LPCTSTR)strVm, 0, _T(',')); 
 		info.id = _ttoi(strTmp);
 
 		AfxExtractSubString(strTmp, (LPCTSTR)strVm, 1, _T(','));

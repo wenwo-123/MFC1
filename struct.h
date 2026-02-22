@@ -9,10 +9,10 @@ struct tagWndInfo {
 	CString strTitle;  // 窗口标题
 
 	tagWndInfo() {
-		id = 0;
-		hWnd = NULL;
-		rtWnd = CRect(0, 0, 0, 0);
-		strTitle = _T("");
+		id			= 0;
+		hWnd		= NULL;
+		rtWnd		= CRect(0, 0, 0, 0);
+		strTitle	= _T("");
 	}
 
 };
@@ -24,13 +24,25 @@ struct tagWndIni {
 	CString strClz;  // 窗口类名
 	CString strLDPath;  // LD路径
 
+	CString strDisplay;
+	CString strMouse;
+	CString strKeypad;
+	CString strPublic;
+	int iMode;
+
 
 	tagWndIni()
 	{
-		strProc = _T("");
-		strTitle = _T("");
-		strClz = _T("");
-		strLDPath = _T("");
+		strProc		= _T("");
+		strTitle	= _T("");
+		strClz		= _T("");
+		strLDPath	= _T("");
+
+		strDisplay	= _T("");
+		strMouse	= _T("");
+		strKeypad	= _T("");
+		strPublic	= _T("");
+		iMode = 0;
 	}
 
 
@@ -48,8 +60,8 @@ struct tagTaskInfo
 
 	tagTaskInfo()
 	{
-		id = 0;
-		pWnd = NULL;
-		pTask = NULL;
+		id		= 0;
+		pWnd	= NULL;
+		pTask	= NULL;
 	}
 };

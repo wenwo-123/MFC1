@@ -16,8 +16,10 @@ public:
 	void Start();  // 启动引擎
 
 public: 
-	tagWndIni m_WndIni;  // 窗口信息
-	CString m_strWorkPath;   // 工作路径
+	tagWndIni	m_WndIni;  // 窗口信息
+	CString		m_strWorkPath;   // 工作路径
+	int			m_iWidth;
+	int			m_iHeight;
 
 public:
 	CArray<tagWndInfo*> m_arrWnd; 
