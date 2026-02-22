@@ -7,6 +7,7 @@
 #include "MFC1Dlg.h"
 #include "afxdialogex.h"
 #include "CEngine.h"
+#include "obj.h"
 
 
 #ifdef _DEBUG
@@ -54,11 +55,16 @@ END_MESSAGE_MAP()
 
 #define TIME_UPDATE_WND 1
 
+
+
 CMFC1Dlg::CMFC1Dlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_MFC1_DIALOG, pParent)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+	m_strDMKey = _T("jv965720b239b8396b1b7df8b768c919e86e10f");  
+	m_strPass = _T("jjyzeeq17581i07");
 }
+
 
 void CMFC1Dlg::DoDataExchange(CDataExchange* pDX)
 {
@@ -114,6 +120,12 @@ BOOL CMFC1Dlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// 设置大图标
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
+
+
+	TCHAR szPath[256] = { 0 };
+	CWHService::GetWorkDirectory(szPath, 256);  // 获取工作路径
+	m_strWorkPath = szPath;
+
 	//#——————————————lstwnd设置
 	DWORD dwStyle = m_lstWnd.GetExtendedStyle();  // 获取当前的扩展样式
 	dwStyle |= LVS_EX_FULLROWSELECT;  // 添加全行选择样式
@@ -158,6 +170,8 @@ BOOL CMFC1Dlg::OnInitDialog()
 	g_pEngine->Init();
 
 	SetTimer(TIME_UPDATE_WND, 5000,NULL);
+
+	AfxBeginThread(RegDmThread, this, THREAD_PRIORITY_NORMAL);
 
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
@@ -218,7 +232,8 @@ void CMFC1Dlg::OnBnClickedButtonStart()
 {
 	// TODO: 在此添加控件通知处理程序代码
 	//AfxMessageBox(_T("Start"));
-	CTraceService::TraceString(_T("启动了"), TraceLevel_Debug);
+	//CTraceService::TraceString(_T("启动了"), TraceLevel_Debug);
+	g_pEngine->Start();
 }
 
 void CMFC1Dlg::OnBnClickedButtonSuspend()
@@ -246,19 +261,17 @@ void CMFC1Dlg::OnTimer(UINT_PTR nIDEvent)
 		{
 			for (int i = 0; i < nWndCount; i++) 
 			{
-				int id = (int)g_pEngine->m_arrWnd[i].id;
-				//int hWnd = (int)g_pEngine->m_arrWnd[i].hWnd;
-
+				int id = (int)g_pEngine->m_arrWnd[i]->id;
 				if (IsWndExist(id))
 				{
-					m_lstWnd.SetItemText(i, 1, g_pEngine->m_arrWnd[i].strTitle); 
+					m_lstWnd.SetItemText(i, 1, g_pEngine->m_arrWnd[i]->strTitle);
 				}
 				else 
 				{
 					int iRow = m_lstWnd.GetItemCount();  // 获取当前行数
 					m_lstWnd.InsertItem(iRow, _T(""));  // 插入新行
-					m_lstWnd.SetItemText(i, 0, I2S((int)g_pEngine->m_arrWnd[i].id));
-					m_lstWnd.SetItemText(i, 1, g_pEngine->m_arrWnd[i].strTitle);  // 设置第一列文本
+					m_lstWnd.SetItemText(i, 0, I2S((int)g_pEngine->m_arrWnd[i]->id));
+					m_lstWnd.SetItemText(i, 1, g_pEngine->m_arrWnd[i]->strTitle);  // 设置第一列文本
 
 				}
 			}
@@ -272,7 +285,8 @@ void CMFC1Dlg::OnTimer(UINT_PTR nIDEvent)
 }
 
 
-bool  CMFC1Dlg::IsWndExist(int id)
+
+bool  CMFC1Dlg::IsWndExist(int id) // 判断窗口是否已经存在于列表控件中
 {
 	for (int i = 0; i < m_lstWnd.GetItemCount(); i++) // 遍历列表控件的每一行
 	{
@@ -282,4 +296,44 @@ bool  CMFC1Dlg::IsWndExist(int id)
 	}
 
 	return false;
+}
+
+
+UINT CMFC1Dlg::RegDmThread(LPVOID pParam)
+{
+	CMFC1Dlg* pThis = (CMFC1Dlg*)pParam; // 将参数转换为指向当前对话框实例的指针
+
+	CoInitializeEx(NULL, 0); // 初始化COM库
+
+	HMODULE hDmReg = LoadLibrary(pThis->m_strWorkPath + _T("/DmReg.dll"));
+	if (hDmReg == NULL)
+	{
+		LogE(_T("DmReg.dll文件不存在"));
+		return 0;
+	}
+
+
+	typedef long (CALLBACK* TypeSetDllPathW)(WCHAR* szPath, long mode); // 定义函数指针类型
+	TypeSetDllPathW pfnSetDllPathW = (TypeSetDllPathW)GetProcAddress(hDmReg, "SetDllPathW");
+	if (pfnSetDllPathW == NULL)
+		return 0;
+
+	CString strDmPath = pThis->m_strWorkPath + _T("/dm.dll");
+	long iRet = pfnSetDllPathW((WCHAR*)strDmPath.GetString(), 0);
+
+	dmsoft* pDm = new dmsoft();
+	long dm_ret = pDm->Reg(pThis->m_strDMKey, pThis->m_strPass);
+	if (dm_ret != 1)
+	{
+		LogE(_T("大漠注册失败! 返回值:%d"), dm_ret);
+		if (pDm)
+			delete pDm;
+		return 0;
+	}
+	else {
+		LogD(_T("大漠注册成功! 版本号: %s..."), pDm->Ver());
+	}
+	
+	CoUninitialize(); // 释放COM库
+	
 }

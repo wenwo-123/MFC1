@@ -36,3 +36,20 @@ struct tagWndIni {
 
 
 };
+
+
+class CTaskThread; // 前向声明
+
+struct tagTaskInfo 
+{
+	int		id;
+	tagWndInfo* pWnd;
+	CTaskThread* pTask;
+
+	tagTaskInfo()
+	{
+		id = 0;
+		pWnd = NULL;
+		pTask = NULL;
+	}
+};

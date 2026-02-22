@@ -15,7 +15,7 @@ CWndManager::~CWndManager()  // 析构函数
 }
 
 // 获取窗口列表
-int CWndManager::GetWndList(CArray<tagWndInfo>& arrWnd)  // 获取窗口列表
+int CWndManager::GetWndList(CArray<tagWndInfo*>& arrWnd)  // 获取窗口列表
 {
 	CArray<tagEnumExeWndParam> arrEnumWnd;  // 临时数组
 	
@@ -45,16 +45,26 @@ int CWndManager::GetWndList(CArray<tagWndInfo>& arrWnd)  // 获取窗口列表
 		bool bExist = false;  // 标记窗口是否已存在
 		for(int j = 0; j < arrWnd.GetCount(); j++) 
 		{  
-			if (info.hWnd == arrWnd[j].hWnd)
+			if (info.hWnd == arrWnd[j]->hWnd)
 			{  
-				arrWnd[j].rtWnd = info.rtWnd;  // 更新窗口信息
-				arrWnd[j].strTitle = info.strTitle;  
-				bExist = true;    
+				arrWnd[j]->rtWnd = info.rtWnd;  // 更新窗口信息
+				arrWnd[j]->strTitle = info.strTitle;  
+				bExist = true;   
+				break; 
 			}
 			
 		}
-		if(!bExist)
-			arrWnd.Add(info);  // 添加到输出数组
+		if (!bExist)
+		{
+			tagWndInfo* pInfo = new tagWndInfo; // 创建新窗口信息对象
+			pInfo->id = info.id;
+			pInfo->hWnd = info.hWnd;
+			pInfo->rtWnd = info.rtWnd;
+			pInfo->strTitle = info.strTitle;
+			arrWnd.Add(pInfo);
+
+		}
+			
 	}
 
 	
@@ -73,7 +83,7 @@ int CWndManager::GetWndList(CArray<tagWndInfo>& arrWnd)  // 获取窗口列表
 
 
 // 获取雷电模拟器列表
-int CWndManager::GetLDList(CArray<tagWndInfo>& arrWnd)
+int CWndManager::GetLDList(CArray<tagWndInfo*>& arrWnd)
 {
 	CString strRet = ListVM(); // 获取雷电模拟器列表
 	if (strRet.GetLength() < 1) // 如果没有获取到列表，返回0
@@ -84,28 +94,28 @@ int CWndManager::GetLDList(CArray<tagWndInfo>& arrWnd)
 	for (int i = 0; i < strArray.GetSize(); i++) // 遍历数组
 	{
 		//0,雷电模拟器,0,0,0,-1,-1
-		tagWndInfo infoTmp;
+		tagWndInfo info;
 		CString strVm = strArray.GetAt(i); // 获取当前行
 		CString strTmp; 
 
 		AfxExtractSubString(strTmp, (LPCTSTR)strVm, 0, _T(','));
-		infoTmp.id = _ttoi(strTmp);
+		info.id = _ttoi(strTmp);
 
 		AfxExtractSubString(strTmp, (LPCTSTR)strVm, 1, _T(','));
-		infoTmp.strTitle = strTmp; // 提取模拟器名称作为窗口标题
+		info.strTitle = strTmp; // 提取模拟器名称作为窗口标题
 
 		AfxExtractSubString(strTmp, (LPCTSTR)strVm, 3, _T(','));
-		infoTmp.hWnd = (HWND)_ttoi(strTmp); // 提取窗口句柄
+		info.hWnd = (HWND)_ttoi(strTmp); // 提取窗口句柄
 
-		if (infoTmp.hWnd != NULL)
-			::GetWindowRect(infoTmp.hWnd, infoTmp.rtWnd); // 获取窗口位置和大小
+		if (info.hWnd != NULL)
+			::GetWindowRect(info.hWnd, info.rtWnd); // 获取窗口位置和大小
 		bool bExist = false;
 		for (int j = 0; j < arrWnd.GetCount(); j++)
 		{
-			if (arrWnd[j].id == infoTmp.id) // 根据id判断是否已存在
+			if (arrWnd[j]->id == info.id) // 根据id判断是否已存在
 			{
-				arrWnd[j].strTitle = infoTmp.strTitle; // 更新窗口标题
-				arrWnd[j].rtWnd = infoTmp.rtWnd;  // 更新窗口位置和大小
+				arrWnd[j]->strTitle = info.strTitle; // 更新窗口标题
+				arrWnd[j]->rtWnd = info.rtWnd;  // 更新窗口位置和大小
 				bExist = true;
 				break;
 			}
@@ -113,7 +123,15 @@ int CWndManager::GetLDList(CArray<tagWndInfo>& arrWnd)
 
 		}
 		if (!bExist)
-			arrWnd.Add(infoTmp);
+		{
+			tagWndInfo* pInfo = new tagWndInfo; // 创建新窗口信息对象
+			pInfo->id = info.id;
+			pInfo->hWnd = info.hWnd;
+			pInfo->rtWnd = info.rtWnd;
+			pInfo->strTitle = info.strTitle;
+			arrWnd.Add(pInfo);
+		}
+			
 	}
 	return arrWnd.GetCount();
 }

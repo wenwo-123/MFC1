@@ -189,6 +189,7 @@
   <ItemGroup>
     <ClInclude Include="CEngine.h" />
     <ClInclude Include="CTaskManager.h" />
+    <ClInclude Include="CTaskThread.h" />
     <ClInclude Include="CWndManager.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="include\ServiceCore\Array.h" />
@@ -209,6 +210,7 @@
     <ClInclude Include="include\ServiceCore\WHThread.h" />
     <ClInclude Include="MFC1.h" />
     <ClInclude Include="MFC1Dlg.h" />
+    <ClInclude Include="obj.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="struct.h" />
@@ -217,6 +219,7 @@
   <ItemGroup>
     <ClCompile Include="CEngine.cpp" />
     <ClCompile Include="CTaskManager.cpp" />
+    <ClCompile Include="CTaskThread.cpp" />
     <ClCompile Include="CWndManager.cpp" />
     <ClCompile Include="include\ServiceCore\Lock.cpp" />
     <ClCompile Include="include\ServiceCore\TraceService.cpp" />
@@ -232,6 +235,7 @@
     <ClCompile Include="include\ServiceCore\WHThread.cpp" />
     <ClCompile Include="MFC1.cpp" />
     <ClCompile Include="MFC1Dlg.cpp" />
+    <ClCompile Include="obj.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

@@ -108,6 +108,12 @@
     <ClInclude Include="struct.h">
       <Filter>框架模块\头文件</Filter>
     </ClInclude>
+    <ClInclude Include="obj.h">
+      <Filter>框架模块\头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CTaskThread.h">
+      <Filter>框架模块\头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MFC1.cpp">
@@ -162,6 +168,12 @@
       <Filter>框架模块\源文件</Filter>
     </ClCompile>
     <ClCompile Include="CTaskManager.cpp">
+      <Filter>框架模块\源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="obj.cpp">
+      <Filter>框架模块\源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CTaskThread.cpp">
       <Filter>框架模块\源文件</Filter>
     </ClCompile>
   </ItemGroup>
