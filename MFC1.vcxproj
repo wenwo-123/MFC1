@@ -253,6 +253,9 @@
   <ItemGroup>
     <Image Include="res\MFC1.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Debug\res\res.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

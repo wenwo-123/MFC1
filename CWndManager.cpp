@@ -99,13 +99,15 @@ int CWndManager::GetLDList(CArray<tagWndInfo*>& arrWnd)
 		CString strTmp; 
 
 		AfxExtractSubString(strTmp, (LPCTSTR)strVm, 0, _T(',')); 
-		info.id = _ttoi(strTmp);
+		info.id = _ttoi(strTmp); // 提取id
 
 		AfxExtractSubString(strTmp, (LPCTSTR)strVm, 1, _T(','));
 		info.strTitle = strTmp; // 提取模拟器名称作为窗口标题
 
 		AfxExtractSubString(strTmp, (LPCTSTR)strVm, 3, _T(','));
 		info.hWnd = (HWND)_ttoi(strTmp); // 提取窗口句柄
+
+
 
 		if (info.hWnd != NULL)
 			::GetWindowRect(info.hWnd, info.rtWnd); // 获取窗口位置和大小

@@ -17,6 +17,12 @@ private:
 
 private:
 	bool Bind();
+	void Click(CPoint ptClk);
+	void Click(int x, int y);
+	bool Find(CString strUI, CPoint& ptFind);
+	bool Find(CString strUI);
+
+	void DoTask(); // 执行任务的函数
 
 
 public:
