@@ -1,8 +1,9 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CEngine.h"
 #include "CWndManager.h"
 #include "CTaskManager.h"
 #include "CTaskThread.h"
+#include "CGameScript.h"
 #include "locale.h"  
 
 CEngine::CEngine() 
@@ -31,28 +32,28 @@ CEngine::~CEngine()
 
 
 
-void CEngine::Init()													// »ñÈ¡´°¿ÚĞÅÏ¢ÅäÖÃ
+void CEngine::Init()													// è·å–çª—å£ä¿¡æ¯é…ç½®
 {
 	TCHAR szPath[256] = { 0 }; 
-	CWHService::GetWorkDirectory(szPath, 256);							// »ñÈ¡¹¤×÷Â·¾¶
+	CWHService::GetWorkDirectory(szPath, 256);							// è·å–å·¥ä½œè·¯å¾„
 	m_strWorkPath = szPath;
 
 	CWHIniData ini;
-	ini.SetIniFilePath(m_strWorkPath+_T("/È«¾ÖÅäÖÃ.ini"));
+	ini.SetIniFilePath(m_strWorkPath+_T("/å…¨å±€é…ç½®.ini"));
 
-	m_WndIni.strProc = ini.ReadString(_T("´°¿Ú"), _T("½ø³Ì"));
-	m_WndIni.strTitle = ini.ReadString(_T("´°¿Ú"), _T("±êÌâ"));
-	m_WndIni.strClz = ini.ReadString(_T("´°¿Ú"), _T("ÀàÃû"));
-	m_WndIni.strLDPath = ini.ReadString(_T("´°¿Ú"), _T("À×µçÂ·¾¶"));
+	m_WndIni.strProc = ini.ReadString(_T("çª—å£"), _T("è¿›ç¨‹"));
+	m_WndIni.strTitle = ini.ReadString(_T("çª—å£"), _T("æ ‡é¢˜"));
+	m_WndIni.strClz = ini.ReadString(_T("çª—å£"), _T("ç±»å"));
+	m_WndIni.strLDPath = ini.ReadString(_T("çª—å£"), _T("é›·ç”µè·¯å¾„"));
 
-	m_WndIni.strDisplay = ini.ReadString(_T("´°¿Ú"), _T("display"));
-	m_WndIni.strMouse = ini.ReadString(_T("´°¿Ú"), _T("mouse"));
-	m_WndIni.strKeypad = ini.ReadString(_T("´°¿Ú"), _T("keypad"));
-	m_WndIni.strPublic = ini.ReadString(_T("´°¿Ú"), _T("public"));
-	m_WndIni.iMode = ini.ReadInt(_T("´°¿Ú"), _T("mode"), 0);
+	m_WndIni.strDisplay = ini.ReadString(_T("çª—å£"), _T("display"));
+	m_WndIni.strMouse = ini.ReadString(_T("çª—å£"), _T("mouse"));
+	m_WndIni.strKeypad = ini.ReadString(_T("çª—å£"), _T("keypad"));
+	m_WndIni.strPublic = ini.ReadString(_T("çª—å£"), _T("public"));
+	m_WndIni.iMode = ini.ReadInt(_T("çª—å£"), _T("mode"), 0);
 
 	CString strTmp;
-	strTmp = ini.ReadString(_T("´°¿Ú"), _T("´°¿Ú³ß´ç"));
+	strTmp = ini.ReadString(_T("çª—å£"), _T("çª—å£å°ºå¯¸"));
 	CStringArray arrTmp;
 	Split(strTmp, arrTmp, _T(","));
 	if (arrTmp.GetCount() == 2)
@@ -60,10 +61,10 @@ void CEngine::Init()													// »ñÈ¡´°¿ÚĞÅÏ¢ÅäÖÃ
 		m_iWidth = _ttoi(arrTmp[0]);
 		m_iHeight = _ttoi(arrTmp[1]);
 	}
-	LogN(_T("´°¿ÚÅäÖÃÎÄ¼ş¶ÁÈ¡Íê³É"));
+	LogN(_T("çª—å£é…ç½®æ–‡ä»¶è¯»å–å®Œæˆ"));
 	
 	LoadRes();
-	LogN(_T("×ÊÔ´ÎÄ¼şÎÄ¼ş¶ÁÈ¡Íê³É"));
+	LogN(_T("èµ„æºæ–‡ä»¶æ–‡ä»¶è¯»å–å®Œæˆ"));
 }
 
 
@@ -81,17 +82,17 @@ int CEngine::GetWndList()
 }
 
 
-void CEngine::Start()											// Æô¶¯ÒıÇæ
+void CEngine::Start()											// å¯åŠ¨å¼•æ“
 {
 	for (int i = 0; i < m_arrWnd.GetCount(); i++)
 	{
-		tagWndInfo* pInfo = m_arrWnd[i];						// »ñÈ¡´°¿ÚĞÅÏ¢
-		if (pInfo->strTitle.Find(_T("À×µçÄ£ÄâÆ÷-1")) != -1)
+		tagWndInfo* pInfo = m_arrWnd[i];						// è·å–çª—å£ä¿¡æ¯
+		if (pInfo->strTitle.Find(_T("é›·ç”µæ¨¡æ‹Ÿå™¨-1")) != -1)
 		{
-			tagTaskInfo* pTask = new tagTaskInfo;				// ´´½¨ÈÎÎñĞÅÏ¢
+			tagTaskInfo* pTask = new tagTaskInfo;				// åˆ›å»ºä»»åŠ¡ä¿¡æ¯
 			pTask->id = pInfo->id;
-			pTask->pWnd = pInfo;								// ¹ØÁª´°¿ÚĞÅÏ¢
-			pTask->pTask = new CTaskThread(pInfo);
+			pTask->pWnd = pInfo;								// å…³è”çª—å£ä¿¡æ¯
+			pTask->pTask = new CGameScript(pInfo);
 			pTask->pTask->StartThread();
 			m_arrTask.Add(pTask);
 
@@ -101,38 +102,38 @@ void CEngine::Start()											// Æô¶¯ÒıÇæ
 	
 }
 
-bool CEngine :: LoadRes() 
+bool CEngine::LoadRes() 
 {
 	CString strResFile = m_strWorkPath + _T("/res/res.txt");
 	if (!PathFileExists(strResFile))
 	{
-		LogN(_T("×ÊÔ´ÎÄ¼ş²»´æÔÚ: %s"), strResFile);
+		LogN(_T("èµ„æºæ–‡ä»¶ä¸å­˜åœ¨: %s"), strResFile);
 		return false;
 	}
-	char* old_locale = _strdup(setlocale(LC_CTYPE, NULL));			// ±£´æµ±Ç°µÄlocaleÉèÖÃ
-	setlocale(LC_CTYPE, "chs");										// ÉèÖÃlocaleÎªÖĞÎÄ£¬ÒÔÕıÈ·´¦ÀíÖĞÎÄ×Ö·û
+	char* old_locale = _strdup(setlocale(LC_CTYPE, NULL));			// ä¿å­˜å½“å‰çš„localeè®¾ç½®
+	setlocale(LC_CTYPE, "chs");										// è®¾ç½®localeä¸ºä¸­æ–‡ï¼Œä»¥æ­£ç¡®å¤„ç†ä¸­æ–‡å­—ç¬¦
 
-	CStdioFile file;												// ´´½¨CStdioFile¶ÔÏó
-	if (!file.Open(strResFile, CFile::modeRead))					// ´ò¿ª×ÊÔ´ÎÄ¼ş
+	CStdioFile file;												// åˆ›å»ºCStdioFileå¯¹è±¡
+	if (!file.Open(strResFile, CFile::modeRead))					// æ‰“å¼€èµ„æºæ–‡ä»¶
 	{
-		LogN(_T("ÎŞ·¨´ò¿ª×ÊÔ´ÎÄ¼ş: %s"), strResFile);
+		LogN(_T("æ— æ³•æ‰“å¼€èµ„æºæ–‡ä»¶: %s"), strResFile);
 		return false;
 	}
 
 	CString strRead = _T("");										
-	while (file.ReadString(strRead))								// ÖğĞĞ¶ÁÈ¡ÎÄ¼şÄÚÈİ
+	while (file.ReadString(strRead))								// é€è¡Œè¯»å–æ–‡ä»¶å†…å®¹
 	{
-		if (strRead.GetLength() < 10)								// ¼òµ¥µÄ¹ıÂËµôÎŞĞ§ĞĞ
+		if (strRead.GetLength() < 10)								// ç®€å•çš„è¿‡æ»¤æ‰æ— æ•ˆè¡Œ
 			continue;
-		if (strRead.GetAt(0) == _T('#'))							// ¹ıÂËµô×¢ÊÍĞĞ
+		if (strRead.GetAt(0) == _T('#'))							// è¿‡æ»¤æ‰æ³¨é‡Šè¡Œ
 			continue;
 
 		CStringArray arrTmp;
 		Split(strRead, arrTmp, _T("="));
 		if (arrTmp.GetCount() != 2)
 		{
-			LogE(_T("ÄÚÈİÎŞ·¨½âÎö:%s"), strRead);
-			ASSERT(FALSE);											// ¶ÏÑÔÊ§°Ü£¬ÄÚÈİÎŞ·¨½âÎö
+			LogE(_T("å†…å®¹æ— æ³•è§£æ:%s"), strRead);
+			ASSERT(FALSE);											// æ–­è¨€å¤±è´¥ï¼Œå†…å®¹æ— æ³•è§£æ
 			return false;
 		}
 
@@ -150,25 +151,25 @@ bool CEngine :: LoadRes()
 
 		if (bExist)
 		{
-			ASSERT(FALSE);											// ¶ÏÑÔÊ§°Ü£¬×ÊÔ´Ãû³ÆÖØ¸´
+			ASSERT(FALSE);											// æ–­è¨€å¤±è´¥ï¼Œèµ„æºåç§°é‡å¤
 			continue;
 		}
 
 		CString strValue = arrTmp[1];
-		arrTmp.RemoveAll();											// Çå¿ÕÁÙÊ±Êı×é
-		Split(strValue, arrTmp, _T(">"));							//  ÒÔ">"·Ö¸î×ÊÔ´Öµ
+		arrTmp.RemoveAll();											// æ¸…ç©ºä¸´æ—¶æ•°ç»„
+		Split(strValue, arrTmp, _T(">"));							//  ä»¥">"åˆ†å‰²èµ„æºå€¼
 		if (arrTmp.GetCount() != 6)
 		{
-			LogE(_T("×ÊÔ´ÖµÎŞ·¨½âÎö:%s"), strValue);
-			ASSERT(FALSE);											// ¶ÏÑÔÊ§°Ü£¬×ÊÔ´ÖµÎŞ·¨½âÎö
+			LogE(_T("èµ„æºå€¼æ— æ³•è§£æ:%s"), strValue);
+			ASSERT(FALSE);											// æ–­è¨€å¤±è´¥ï¼Œèµ„æºå€¼æ— æ³•è§£æ
 			return false;
 		}
 		CStringArray arrRect;
 		Split(arrTmp[0], arrRect, _T(","));
 		if (arrRect.GetCount() != 4)
 		{
-			LogE(_T("ÄÚÈİÎŞ·¨½âÎö:%s"), strRead);
-			ASSERT(FALSE);											// ¶ÏÑÔÊ§°Ü£¬ÄÚÈİÎŞ·¨½âÎö
+			LogE(_T("å†…å®¹æ— æ³•è§£æ:%s"), strRead);
+			ASSERT(FALSE);											// æ–­è¨€å¤±è´¥ï¼Œå†…å®¹æ— æ³•è§£æ
 			return false;
 		}
 
@@ -181,9 +182,10 @@ bool CEngine :: LoadRes()
 		tagResItem* pItem = new tagResItem;
 		pItem->strName = strName;
 		pItem->rtArea = CRect(_ttoi(arrRect[0]), _ttoi(arrRect[1]), _ttoi(arrRect[2]), _ttoi(arrRect[3]));
-		ASSERT(pItem->rtArea.left >= 0 && pItem->rtArea.left < pItem->rtArea.right);		// ¶ÏÑÔÇøÓò×ø±êÓĞĞ§
+
+		ASSERT(pItem->rtArea.left >= 0 && pItem->rtArea.left <= pItem->rtArea.right);		// æ–­è¨€åŒºåŸŸåæ ‡æœ‰æ•ˆ
 		ASSERT(pItem->rtArea.right <= m_iWidth);
-		ASSERT(pItem->rtArea.top >= 0 && pItem->rtArea.top < pItem->rtArea.bottom);
+		ASSERT(pItem->rtArea.top >= 0 && pItem->rtArea.top <= pItem->rtArea.bottom);
 		ASSERT(pItem->rtArea.bottom <= m_iHeight);
 
 		pItem->strRes = strRes; 
@@ -191,26 +193,44 @@ bool CEngine :: LoadRes()
 		pItem->dSim = _ttof(strSim);
 		pItem->iDir = _ttoi(strDir);
 
-		if (strType == _T("ÕÒÍ¼"))
+		if (strType == _T("æ‰¾å›¾"))
 		{
 			pItem->iType = 0;
 		}
-		else if (strType == _T("ÕÒÉ«"))
+		else if (strType == _T("æ‰¾è‰²"))
 		{
 			pItem->iType = 1;
 		}
-		else if (strType == _T("ÕÒ×Ö"))
+		else if (strType == _T("æ‰¾å­—"))
 		{
 			pItem->iType = 2;
 		}
+		else if (strType == _T("å­—å…¸"))
+		{
+			pItem->iType = 3;
+
+		}
+		else if (strType == _T("è¯†å­—"))
+		{
+			pItem->iType = 4;
+		}
+
+
 		m_arrRes.Add(pItem);
 	}
 
 
-	setlocale(LC_CTYPE, old_locale);						// »Ö¸´Ö®Ç°µÄlocaleÉèÖÃ
-	free(old_locale);										// ÊÍ·ÅÖ®Ç°±£´æµÄlocale×Ö·û´®
-	file.Close();											// ¹Ø±ÕÎÄ¼ş
+	setlocale(LC_CTYPE, old_locale);						// æ¢å¤ä¹‹å‰çš„localeè®¾ç½®
+	free(old_locale);										// é‡Šæ”¾ä¹‹å‰ä¿å­˜çš„localeå­—ç¬¦ä¸²
+	file.Close();											// å…³é—­æ–‡ä»¶
 
+	// æ·»åŠ è°ƒè¯•ä¿¡æ¯
+	LogN(_T("å…±åŠ è½½ %d ä¸ªèµ„æºé¡¹"), m_arrRes.GetCount());
+	for (int i = 0; i < m_arrRes.GetCount(); i++)
+	{
+		LogN(_T("èµ„æº[%d]: %s"), i, m_arrRes[i]->strName);
+	}
+	
 	return true;
 }
 

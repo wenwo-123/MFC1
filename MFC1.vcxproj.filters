@@ -22,11 +22,8 @@
     <Filter Include="任务模块">
       <UniqueIdentifier>{b58f3642-4e4a-4199-bc0c-a52355eeb5b5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="框架模块\源文件">
-      <UniqueIdentifier>{ca444a3f-79bc-48df-9aac-4ee41172b275}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="框架模块\头文件">
-      <UniqueIdentifier>{09542d6f-8495-45c4-a8ff-0b198d90b399}</UniqueIdentifier>
+    <Filter Include="游戏逻辑">
+      <UniqueIdentifier>{8fe39666-3808-416c-bbbe-e4fa023aa01b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -97,22 +94,25 @@
       <Filter>ServiceCore</Filter>
     </ClInclude>
     <ClInclude Include="CEngine.h">
-      <Filter>框架模块\头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="CWndManager.h">
-      <Filter>框架模块\头文件</Filter>
+      <Filter>框架模块</Filter>
     </ClInclude>
     <ClInclude Include="CTaskManager.h">
-      <Filter>框架模块\头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="struct.h">
-      <Filter>框架模块\头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="obj.h">
-      <Filter>框架模块\头文件</Filter>
+      <Filter>框架模块</Filter>
     </ClInclude>
     <ClInclude Include="CTaskThread.h">
-      <Filter>框架模块\头文件</Filter>
+      <Filter>框架模块</Filter>
+    </ClInclude>
+    <ClInclude Include="CWndManager.h">
+      <Filter>框架模块</Filter>
+    </ClInclude>
+    <ClInclude Include="obj.h">
+      <Filter>框架模块</Filter>
+    </ClInclude>
+    <ClInclude Include="struct.h">
+      <Filter>框架模块</Filter>
+    </ClInclude>
+    <ClInclude Include="CGameScript.h">
+      <Filter>游戏逻辑</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -162,19 +162,22 @@
       <Filter>ServiceCore</Filter>
     </ClCompile>
     <ClCompile Include="CEngine.cpp">
-      <Filter>框架模块\源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="CWndManager.cpp">
-      <Filter>框架模块\源文件</Filter>
+      <Filter>框架模块</Filter>
     </ClCompile>
     <ClCompile Include="CTaskManager.cpp">
-      <Filter>框架模块\源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="obj.cpp">
-      <Filter>框架模块\源文件</Filter>
+      <Filter>框架模块</Filter>
     </ClCompile>
     <ClCompile Include="CTaskThread.cpp">
-      <Filter>框架模块\源文件</Filter>
+      <Filter>框架模块</Filter>
+    </ClCompile>
+    <ClCompile Include="CWndManager.cpp">
+      <Filter>框架模块</Filter>
+    </ClCompile>
+    <ClCompile Include="obj.cpp">
+      <Filter>框架模块</Filter>
+    </ClCompile>
+    <ClCompile Include="CGameScript.cpp">
+      <Filter>游戏逻辑</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -335,5 +335,6 @@ UINT CMFC1Dlg::RegDmThread(LPVOID pParam)
 	}
 	
 	CoUninitialize(); // 释放COM库
+	return 0;
 	
 }

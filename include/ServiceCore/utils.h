@@ -54,6 +54,7 @@ DWORD GetProcessPid(TCHAR* strProcName);
 //DWORD GetProcessPid(TCHAR* strProcName, TCHAR* strWndTitle);
 
 void Split(CString strSrc, CStringArray& dstArray, CString strDiv);
+CString  RepStr(CString strSrc, CString strOld, CString strNew);
 
 CStringA CW2CA(const CStringW &cstrSrcW);
 CStringW CA2CW(const CStringA &cstrSrcA);

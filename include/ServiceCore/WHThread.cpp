@@ -163,7 +163,7 @@ LRESULT CWHThread::PostThreadMessage(UINT uMessage, WPARAM wParam, LPARAM lParam
 unsigned __stdcall CWHThread::ThreadFunction(LPVOID pThreadData)
 {
 	//随机种子
-	srand((DWORD)time(NULL) + +GetCurrentProcessId());
+	srand((DWORD)time(NULL) + GetCurrentProcessId());
 
 	//变量定义
 	tagThreadParameter * pThreadParameter=(tagThreadParameter *)pThreadData;

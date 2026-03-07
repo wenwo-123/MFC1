@@ -188,6 +188,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CEngine.h" />
+    <ClInclude Include="CGameScript.h" />
     <ClInclude Include="CTaskManager.h" />
     <ClInclude Include="CTaskThread.h" />
     <ClInclude Include="CWndManager.h" />
@@ -218,6 +219,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CEngine.cpp" />
+    <ClCompile Include="CGameScript.cpp" />
     <ClCompile Include="CTaskManager.cpp" />
     <ClCompile Include="CTaskThread.cpp" />
     <ClCompile Include="CWndManager.cpp" />

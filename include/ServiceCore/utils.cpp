@@ -70,6 +70,12 @@ void Split(CString strSrc, CStringArray& dstArray, CString strDiv)
 	}
 }
 
+CString RepStr(CString strSrc, CString strOld, CString strNew)
+{
+	strSrc.Replace(strOld, strNew);
+	return strSrc;
+}
+
 CStringA CW2CA(const CStringW &cstrSrcW)
 {
 	int len = WideCharToMultiByte(CP_ACP, 0, LPCTSTR(cstrSrcW), -1, NULL, 0, NULL, NULL);
