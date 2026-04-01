@@ -13,7 +13,11 @@ public:
 public:
 	void Init();							// 获取窗口信息配置
 	int GetWndList();						// 获取窗口列表
-	void Start();							// 启动引擎
+
+	void Start(int id = -1);							// 启动引擎
+	void Stop(int id = -1);							// 停止引擎
+	void Suspend(int id = -1);							// 暂停引擎
+	
 	tagResItem* GetResItem( CString& strName);	// 获取资源项
 
 public: 

@@ -61,8 +61,12 @@ CMFC1Dlg::CMFC1Dlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_MFC1_DIALOG, pParent)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+
 	m_strDMKey = _T("jv965720b239b8396b1b7df8b768c919e86e10f");  
 	m_strPass = _T("jjyzeeq17581i07");
+
+	m_bRegDm = false;
+	m_strCmd = _T("注册");
 }
 
 
@@ -73,7 +77,8 @@ void CMFC1Dlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_LIST_TASK, m_lstTask);
 	DDX_Control(pDX, IDC_LIST_TASK_RUN, m_lstTaskRun);
 
-	DDX_Control(pDX, IDC_TRACE_MESSAGE , m_TraceServiceControl);
+	DDX_Control(pDX, IDC_TRACE_MESSAGE, m_TraceServiceControl);
+	DDX_Control(pDX, IDC_BUTTON_START, m_btnStart);
 }
 
 BEGIN_MESSAGE_MAP(CMFC1Dlg, CDialogEx)
@@ -86,6 +91,7 @@ BEGIN_MESSAGE_MAP(CMFC1Dlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON_SUSPEND, &CMFC1Dlg::OnBnClickedButtonSuspend)
 	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST_TASK_RUN, &CMFC1Dlg::OnLvnItemchangedListTaskRun)
 	ON_WM_TIMER()
+	ON_WM_CLOSE()
 END_MESSAGE_MAP()
 
 
@@ -171,7 +177,7 @@ BOOL CMFC1Dlg::OnInitDialog()
 
 	SetTimer(TIME_UPDATE_WND, 5000,NULL);
 
-	AfxBeginThread(RegDmThread, this, THREAD_PRIORITY_NORMAL);
+	AfxBeginThread(CDMEngineThread, this, THREAD_PRIORITY_NORMAL);
 
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
@@ -230,10 +236,22 @@ HCURSOR CMFC1Dlg::OnQueryDragIcon()
 // "开始"按钮点击事件处理程序
 void CMFC1Dlg::OnBnClickedButtonStart()
 {
-	// TODO: 在此添加控件通知处理程序代码
-	//AfxMessageBox(_T("Start"));
-	//CTraceService::TraceString(_T("启动了"), TraceLevel_Debug);
-	g_pEngine->Start();
+	CString strTxt;
+	m_btnStart.GetWindowText(strTxt);  // 获取按钮文本
+
+	if (strTxt == _T("启动"))
+	{
+		m_strCmd = _T("启动");
+		m_btnStart.SetWindowText(_T("停止"));
+		
+	}
+	else if (strTxt == _T("停止"))
+	{
+		m_strCmd = _T("停止");
+		m_btnStart.SetWindowText(_T("启动"));;
+	}
+	
+
 }
 
 void CMFC1Dlg::OnBnClickedButtonSuspend()
@@ -299,42 +317,72 @@ bool  CMFC1Dlg::IsWndExist(int id) // 判断窗口是否已经存在于列表控
 }
 
 
-UINT CMFC1Dlg::RegDmThread(LPVOID pParam)
+UINT CMFC1Dlg::CDMEngineThread(LPVOID pParam)
 {
 	CMFC1Dlg* pThis = (CMFC1Dlg*)pParam; // 将参数转换为指向当前对话框实例的指针
-
 	CoInitializeEx(NULL, 0); // 初始化COM库
 
-	HMODULE hDmReg = LoadLibrary(pThis->m_strWorkPath + _T("/DmReg.dll"));
-	if (hDmReg == NULL)
+	while (true)
 	{
-		LogE(_T("DmReg.dll文件不存在"));
-		return 0;
+		if (pThis->m_strCmd == _T("注册"))
+		{
+			HMODULE hDmReg = LoadLibrary(pThis->m_strWorkPath + _T("/DmReg.dll"));
+			if (hDmReg == NULL)
+			{
+				LogE(_T("DmReg.dll文件不存在"));
+				continue;
+			}
+
+			typedef long (CALLBACK* TypeSetDllPathW)(WCHAR* szPath, long mode); // 定义函数指针类型
+			TypeSetDllPathW pfnSetDllPathW = (TypeSetDllPathW)GetProcAddress(hDmReg, "SetDllPathW");  // 获取函数地址
+			if (pfnSetDllPathW == NULL)
+				continue;
+
+			CString strDmPath = pThis->m_strWorkPath + _T("/dm.dll");	 // 构造DLL路径
+			long iRet = pfnSetDllPathW((WCHAR*)strDmPath.GetString(), 0);  // 调用函数设置DLL路径
+
+			dmsoft* pDm = new dmsoft();
+			long dm_ret = pDm->Reg(pThis->m_strDMKey, pThis->m_strPass);
+
+			if (dm_ret != 1)
+			{
+				LogE(_T("大漠注册失败! 返回值:%d"), dm_ret);
+				if (pDm)
+					delete pDm;
+
+				continue;
+			}
+			else {
+				LogD(_T("大漠注册成功! 版本号: %s..."), pDm->Ver());
+			}
+
+			if (pDm)
+				delete pDm;	
+		}
+		else if (pThis->m_strCmd == _T("启动"))
+		{
+			g_pEngine->Start();
+		}
+		else if (pThis->m_strCmd == _T("停止"))
+		{ 
+			g_pEngine->Stop();
+		}
+
+		pThis->m_strCmd = _T("");
+		Sleep(1000);
 	}
 
-
-	typedef long (CALLBACK* TypeSetDllPathW)(WCHAR* szPath, long mode); // 定义函数指针类型
-	TypeSetDllPathW pfnSetDllPathW = (TypeSetDllPathW)GetProcAddress(hDmReg, "SetDllPathW");
-	if (pfnSetDllPathW == NULL)
-		return 0;
-
-	CString strDmPath = pThis->m_strWorkPath + _T("/dm.dll");
-	long iRet = pfnSetDllPathW((WCHAR*)strDmPath.GetString(), 0);
-
-	dmsoft* pDm = new dmsoft();
-	long dm_ret = pDm->Reg(pThis->m_strDMKey, pThis->m_strPass);
-	if (dm_ret != 1)
-	{
-		LogE(_T("大漠注册失败! 返回值:%d"), dm_ret);
-		if (pDm)
-			delete pDm;
-		return 0;
-	}
-	else {
-		LogD(_T("大漠注册成功! 版本号: %s..."), pDm->Ver());
-	}
-	
 	CoUninitialize(); // 释放COM库
 	return 0;
 	
+}
+
+void CMFC1Dlg::OnClose()
+{
+	if (g_pEngine)
+	{
+		delete g_pEngine; // 释放CEngine实例
+	}
+
+	CDialogEx::OnClose();
 }

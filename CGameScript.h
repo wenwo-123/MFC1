@@ -11,5 +11,6 @@ protected:
 
 private:
 	CString 识别坐标();
+	void 乱点();
 };
 

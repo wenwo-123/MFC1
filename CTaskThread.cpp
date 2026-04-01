@@ -127,8 +127,9 @@ void CTaskThread::Click(CPoint ptClk)
 
 void CTaskThread::Click(int x, int y)
 {
+	 LogN(_T("Click: %d,%d"), x, y);
 	m_pDm->MoveTo(x, y);
-	Sleep(50 + rand() % 100);
+	Sleep(50 + rand() % 100);  // 增加随机延迟模拟人类操作
 	m_pDm->LeftClick();
 }
 
@@ -217,7 +218,7 @@ bool CTaskThread::Find(CString strUI, CPoint& ptFind, CRect rtArea)
 		pItem->rtArea = rtArea;
 	}
 
-	long x, y = -1;
+	long x = -1, y = -1;
 	long ret = -1;
 	if (pItem->iType == 0)									// 找图
 	{
@@ -234,6 +235,15 @@ bool CTaskThread::Find(CString strUI, CPoint& ptFind, CRect rtArea)
 				pItem->rtArea.right + 1, 
 				pItem->rtArea.bottom + 1,
 				pItem->strRes,  pItem->dSim, pItem->iDir, &x, &y);
+	}
+	else if (pItem->iType == 5)
+	{
+
+		int iRandW = rand() % (pItem->rtArea.Width() / 2); // 随机生成一个宽度偏移量，范围是区域宽度的一半
+		int iRandH = rand() % (pItem->rtArea.Height() / 2); // 随机生成一个高度偏移量，范围是区域高度的一半
+
+		x = pItem->rtArea.CenterPoint().x + ((rand() % 100 > 50) ? iRandW : -iRandW); // 在中心点基础上随机加上或减去宽度偏移量
+		y = pItem->rtArea.CenterPoint().y + ((rand() % 100 > 50) ? iRandH : -iRandH); // 在中心点基础上随机加上或减去高度偏移量
 	}
 	
 	ptFind.x = x;
@@ -297,33 +307,26 @@ void CTaskThread::WheelUp()
 	m_pDm->WheelUp();
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-void CTaskThread::DoTask()
+void CTaskThread::clk(CString strUI)
 {
-	for (int i = 0; i < 5; i++)
-	{
-
-
-
-
-
-		Sleep(2000);
-	}
-
+	CPoint ptFind;
+	Find(strUI, ptFind);
+	Click(ptFind);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

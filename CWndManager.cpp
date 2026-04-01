@@ -15,7 +15,7 @@ CWndManager::~CWndManager()  // 析构函数
 }
 
 // 获取窗口列表
-int CWndManager::GetWndList(CArray<tagWndInfo*>& arrWnd)  // 获取窗口列表
+int CWndManager::GetWndList()  // 获取窗口列表
 {
 	CArray<tagEnumExeWndParam> arrEnumWnd;  // 临时数组
 	
@@ -40,15 +40,15 @@ int CWndManager::GetWndList(CArray<tagWndInfo*>& arrWnd)  // 获取窗口列表
 		TCHAR title[MAX_PATH] = { 0 }; // 窗口标题
 		GetWindowText(info.hWnd, title, MAX_PATH);
 		info.strTitle = title;
-		::GetWindowRect(info.hWnd, info.rtWnd);
+		::GetWindowRect(info.hWnd, info.rtWnd); 
 
 		bool bExist = false;  // 标记窗口是否已存在
-		for(int j = 0; j < arrWnd.GetCount(); j++) 
+		for(int j = 0; j < g_pEngine->m_arrWnd.GetCount(); j++)
 		{  
-			if (info.hWnd == arrWnd[j]->hWnd)
+			if (info.hWnd == g_pEngine->m_arrWnd[j]->hWnd)
 			{  
-				arrWnd[j]->rtWnd = info.rtWnd;  // 更新窗口信息
-				arrWnd[j]->strTitle = info.strTitle;  
+				g_pEngine->m_arrWnd[j]->rtWnd = info.rtWnd;  // 更新窗口信息
+				g_pEngine->m_arrWnd[j]->strTitle = info.strTitle;  
 				bExist = true;   
 				break; 
 			}
@@ -61,8 +61,7 @@ int CWndManager::GetWndList(CArray<tagWndInfo*>& arrWnd)  // 获取窗口列表
 			pInfo->hWnd = info.hWnd;
 			pInfo->rtWnd = info.rtWnd;
 			pInfo->strTitle = info.strTitle;
-			arrWnd.Add(pInfo);
-
+			g_pEngine->m_arrWnd.Add(pInfo);
 		}
 			
 	}
@@ -78,12 +77,12 @@ int CWndManager::GetWndList(CArray<tagWndInfo*>& arrWnd)  // 获取窗口列表
 		LogD(_T("%p - %s"), (void*)arrEnumWnd[i].hWnds[0], title); // 打印窗口句柄和标题
 	}
 	
-	return arrWnd.GetCount();  // 建议返回找到的窗口数量
+	return g_pEngine->m_arrWnd.GetCount();  // 建议返回找到的窗口数量
 }
 
 
 // 获取雷电模拟器列表
-int CWndManager::GetLDList(CArray<tagWndInfo*>& arrWnd)
+int CWndManager::GetLDList()
 {
 	CString strRet = ListVM(); // 获取雷电模拟器列表
 	if (strRet.GetLength() < 1) // 如果没有获取到列表，返回0
@@ -112,12 +111,12 @@ int CWndManager::GetLDList(CArray<tagWndInfo*>& arrWnd)
 		if (info.hWnd != NULL)
 			::GetWindowRect(info.hWnd, info.rtWnd); // 获取窗口位置和大小
 		bool bExist = false;
-		for (int j = 0; j < arrWnd.GetCount(); j++)
+		for (int j = 0; j < g_pEngine->m_arrWnd.GetCount(); j++)
 		{
-			if (arrWnd[j]->id == info.id) // 根据id判断是否已存在
+			if (g_pEngine->m_arrWnd[j]->id == info.id) // 根据id判断是否已存在
 			{
-				arrWnd[j]->strTitle = info.strTitle; // 更新窗口标题
-				arrWnd[j]->rtWnd = info.rtWnd;  // 更新窗口位置和大小
+				g_pEngine->m_arrWnd[j]->strTitle = info.strTitle; // 更新窗口标题
+				g_pEngine->m_arrWnd[j]->rtWnd = info.rtWnd;  // 更新窗口位置和大小
 				bExist = true;
 				break;
 			}
@@ -131,11 +130,11 @@ int CWndManager::GetLDList(CArray<tagWndInfo*>& arrWnd)
 			pInfo->hWnd = info.hWnd;
 			pInfo->rtWnd = info.rtWnd;
 			pInfo->strTitle = info.strTitle;
-			arrWnd.Add(pInfo);
+			g_pEngine->m_arrWnd.Add(pInfo);
 		}
 			
 	}
-	return arrWnd.GetCount();
+	return g_pEngine->m_arrWnd.GetCount();
 }
 
 

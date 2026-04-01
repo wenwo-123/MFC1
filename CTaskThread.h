@@ -66,9 +66,10 @@ protected:
 	CString Ocr(CString strUI, CRect rtArea = CRect(0, 0, 0, 0));    // 在指定区域进行OCR文字识别，返回识别结果
 
 
-	void DoTask(); // 执行任务的函数
+	
 
-
+protected:
+	void clk(CString strUI);
 public:
 	virtual bool OnEventThreadRun()override;  // 线程运行事件
 	virtual bool OnEventThreadStart()override; // 线程开始事件

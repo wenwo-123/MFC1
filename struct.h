@@ -54,14 +54,18 @@ class	CTaskThread; // 前向声明
 struct	tagTaskInfo 
 {
 	int				id;
-	tagWndInfo*		pWnd;
-	CTaskThread*	pTask;
+	tagWndInfo*		pWnd;			// 关联的窗口信息指针
+	CTaskThread*    pTask;          // 关联的任务线程指针
+
+	CString strState; //执行 暂停 停止
 
 	tagTaskInfo()
 	{
 		id		= 0;
 		pWnd	= NULL;
 		pTask	= NULL;
+
+		strState = _T("");
 	}
 };
 

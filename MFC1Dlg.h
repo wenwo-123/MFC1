@@ -25,16 +25,17 @@ private: // 存放变量
 	CListCtrl m_lstTask;
 	CListCtrl m_lstTaskRun;
 	CTraceServiceControl	m_TraceServiceControl;  
-
+	CButton m_btnStart; // 开始按钮
 
 	CString m_strDMKey;  
 	CString m_strPass;  
 	CString m_strWorkPath;  
 
-
+	bool m_bRegDm;
+	CString m_strCmd; // 注册/启动/停止
 
 private:
-	static UINT RegDmThread(LPVOID pParam); // 注册窗口线程
+	static UINT CDMEngineThread(LPVOID pParam); // 注册窗口线程
 
 private:
 	bool IsWndExist(int id);
@@ -57,4 +58,6 @@ public: // 存放函数
 
 	afx_msg void OnLvnItemchangedListTaskRun(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
+	afx_msg void OnClose();
+	
 };

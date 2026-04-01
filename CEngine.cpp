@@ -8,19 +8,39 @@
 
 CEngine::CEngine() 
 {
+	m_iWidth = 0;
+	m_iHeight = 0;
 	m_pWndMgr =		new CWndManager();
 	m_pTaskMgr =	new CTaskManager();
 }
 
 CEngine::~CEngine() 
 {
+	//释放窗口信息数组
 	for (int i = 0; i < m_arrWnd.GetCount(); i++)
 	{
 		tagWndInfo* pInfo = m_arrWnd[i];
 		delete pInfo;
-	}
+	}    
+	m_arrWnd.RemoveAll();  // 	清空窗口信息数组		
 
-	m_arrWnd.RemoveAll();
+	//释放资源信息数组
+	for (int i = 0; i < m_arrRes.GetCount(); i++)
+	{
+		tagResItem* pInfo = m_arrRes[i];
+		delete pInfo;
+	}
+	m_arrRes.RemoveAll();  
+
+	//释放任务信息数组
+	for (int i = 0; i < m_arrTask.GetCount(); i++)
+	{
+		tagTaskInfo* pInfo = m_arrTask[i];
+		delete pInfo;
+	}
+	m_arrTask.RemoveAll();
+
+
 
 	if (m_pWndMgr)
 		delete m_pWndMgr;
@@ -72,34 +92,29 @@ int CEngine::GetWndList()
 {
 	if (m_WndIni.strLDPath.GetLength() > 5)
 	{
-		return m_pWndMgr->GetLDList(m_arrWnd);
+		return m_pWndMgr->GetLDList();
 	}
 	else 
 	{
-		return m_pWndMgr->GetWndList(m_arrWnd);
+		return m_pWndMgr->GetWndList();
 	}
 	
 }
 
 
-void CEngine::Start()											// 启动引擎
+void CEngine::Start(int id)											// 启动引擎
 {
-	for (int i = 0; i < m_arrWnd.GetCount(); i++)
-	{
-		tagWndInfo* pInfo = m_arrWnd[i];						// 获取窗口信息
-		if (pInfo->strTitle.Find(_T("雷电模拟器-1")) != -1)
-		{
-			tagTaskInfo* pTask = new tagTaskInfo;				// 创建任务信息
-			pTask->id = pInfo->id;
-			pTask->pWnd = pInfo;								// 关联窗口信息
-			pTask->pTask = new CGameScript(pInfo);
-			pTask->pTask->StartThread();
-			m_arrTask.Add(pTask);
+	m_pTaskMgr->Start(id);
+}
 
-		}
+void CEngine::Stop(int id)
+{
+	m_pTaskMgr->Stop(id);
+}
 
-	}
-	
+void CEngine::Suspend(int id)
+{
+	m_pTaskMgr->Suspend(id);
 }
 
 bool CEngine::LoadRes() 
@@ -142,7 +157,7 @@ bool CEngine::LoadRes()
 		bool bExist = false;
 		for (int i = 0; i < m_arrRes.GetCount(); i++)
 		{
-			if (m_arrRes[i]->strName == strName)
+			if (m_arrRes[i]->strName == strName)   // 检查资源名称是否已经存在
 			{
 				bExist = true;
 				break;
@@ -214,6 +229,10 @@ bool CEngine::LoadRes()
 		{
 			pItem->iType = 4;
 		}
+		else if (strType == _T("位置"))
+		{
+			pItem->iType = 5;
+		}
 
 
 		m_arrRes.Add(pItem);
@@ -235,7 +254,7 @@ bool CEngine::LoadRes()
 }
 
 
-tagResItem* CEngine::GetResItem(CString& strName)
+tagResItem* CEngine::GetResItem(CString& strName)  // 获取资源项
 {
 	for (int i = 0; i < m_arrRes.GetCount(); i++)
 	{
